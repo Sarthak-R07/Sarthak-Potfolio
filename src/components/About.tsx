@@ -41,7 +41,7 @@ export const About = () => {
         >
           <div className="aspect-[3/4] rounded-2xl overflow-hidden bg-[#0F1117] relative group">
             <img
-              src="/img3.jpg"
+              src="/Sarthak-Potfolio/img3.jpg"
               alt="Sarthak Rodge"
               className="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-700"
             />
