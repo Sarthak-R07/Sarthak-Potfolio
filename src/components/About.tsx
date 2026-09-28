@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
 
 const capabilities = [
   { label: 'Strategic Planning', desc: 'Market positioning & go-to-market' },
@@ -14,6 +15,19 @@ const fadeUp = {
 };
 
 export const About = () => {
+  const imgContainerRef = useRef(null);
+  
+  // Track scroll progress of the image container
+  const { scrollYProgress } = useScroll({
+    target: imgContainerRef,
+    // Start transition when the top of the image is at 90% of the viewport
+    // End transition when the center of the image hits the center of the viewport
+    offset: ["start 90%", "center 50%"]
+  });
+
+  // Map the scroll progress (0 to 1) to grayscale percentage
+  const imgFilter = useTransform(scrollYProgress, [0, 1], ["grayscale(100%)", "grayscale(0%)"]);
+
   return (
     <section id="about" className="py-32 md:py-44 px-6 md:px-12 max-w-5xl mx-auto relative">
       {/* Section header with number */}
@@ -39,11 +53,12 @@ export const About = () => {
           transition={{ duration: 0.7, delay: 0.05 }}
           className="md:col-span-3"
         >
-          <div className="aspect-[3/4] rounded-2xl overflow-hidden bg-[#0F1117] relative group">
-            <img
+          <div ref={imgContainerRef} className="aspect-[3/4] rounded-2xl overflow-hidden bg-[#0F1117] relative group">
+            <motion.img
               src="/Sarthak-Potfolio/img3.jpg"
               alt="Sarthak Rodge"
-              className="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-700"
+              style={{ filter: imgFilter }}
+              className="w-full h-full object-cover object-top"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#07090E]/60 to-transparent" />
           </div>
