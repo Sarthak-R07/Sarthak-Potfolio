@@ -19,7 +19,7 @@ const projects = [
     title: 'Swaraj Saathi',
     type: 'Flagship Product',
     description: 'The biggest project in the portfolio — a comprehensive platform built to empower and create real impact at scale. From ideation to execution, Swaraj Saathi represents the full spectrum of product thinking, engineering, and mission-driven design.',
-    websiteLink: '#', // TODO: Replace with actual website link
+    websiteLink: 'https://Sarthak-R07.github.io/Swaraj-Saathi-Website/',
     videoLink: 'https://drive.google.com/file/d/1e1QFynU-nk0Ujk90JnGCilf_yxIBxEnu/view?usp=drive_link',
     flagship: true,
   },
