@@ -74,17 +74,22 @@ export const Work = () => {
 
             <div className="grid md:grid-cols-12 gap-8 items-start">
               {/* Type label & Logo */}
-              <div className="md:col-span-3 flex flex-col items-start gap-4">
+              <div className="md:col-span-3 flex flex-col items-start gap-5">
                 <p className="text-[0.65rem] tracking-[0.2em] uppercase text-[#8A8680] font-medium" style={{ fontFamily: 'JetBrains Mono, monospace' }}>{project.type}</p>
-                <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl overflow-hidden bg-white p-2.5 flex items-center justify-center shrink-0 border border-white/10 shadow-2xl">
-                  {project.logo ? (
-                    <img src={project.logo} alt={project.title} className="w-full h-full object-contain" />
-                  ) : (
-                    <span className="text-xl font-bold text-[#07090E]" style={{ fontFamily: 'Syne, sans-serif' }}>
+                
+                {project.logo ? (
+                  <img 
+                    src={project.logo} 
+                    alt={project.title} 
+                    className="w-auto h-16 md:h-20 rounded-xl shadow-2xl border border-white/10 object-contain" 
+                  />
+                ) : (
+                  <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-white/5 flex items-center justify-center shrink-0 border border-white/10 shadow-2xl">
+                    <span className="text-xl font-bold text-[#E8E4DF]" style={{ fontFamily: 'Syne, sans-serif' }}>
                       {project.title.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase()}
                     </span>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
 
               {/* Title + Description */}
