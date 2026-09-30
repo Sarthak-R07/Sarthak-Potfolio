@@ -23,6 +23,14 @@ const projects = [
     videoLink: 'https://drive.google.com/file/d/1e1QFynU-nk0Ujk90JnGCilf_yxIBxEnu/view?usp=drive_link',
     flagship: true,
   },
+  {
+    title: 'Turf Web',
+    type: 'Web Application',
+    description: 'A modern, user-friendly platform designed to streamline sports turf booking and facility management. Features a seamless digital booking experience and clean UI.',
+    websiteLink: '#', // TODO: Add actual link when ready
+    videoLink: null,
+    flagship: false,
+  },
 ];
 
 export const Work = () => {
