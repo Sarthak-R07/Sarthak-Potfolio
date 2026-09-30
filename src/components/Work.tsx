@@ -13,6 +13,7 @@ const projects = [
     description: 'A thoughtfully designed website delivering a seamless digital presence.',
     websiteLink: 'https://sarthak-r07.github.io/Renuka-Devi/',
     videoLink: null,
+    logo: null,
     flagship: false,
   },
   {
@@ -21,6 +22,7 @@ const projects = [
     description: 'The biggest project in the portfolio — a comprehensive platform built to empower and create real impact at scale. From ideation to execution, Swaraj Saathi represents the full spectrum of product thinking, engineering, and mission-driven design.',
     websiteLink: 'https://Sarthak-R07.github.io/Swaraj-Saathi-Website/',
     videoLink: 'https://drive.google.com/file/d/1e1QFynU-nk0Ujk90JnGCilf_yxIBxEnu/view?usp=drive_link',
+    logo: '/Sarthak-Potfolio/logo_swaraj_saathi.jpg',
     flagship: true,
   },
   {
@@ -29,6 +31,7 @@ const projects = [
     description: 'A modern, user-friendly platform designed to streamline sports turf booking and facility management. Features a seamless digital booking experience and clean UI.',
     websiteLink: 'https://Sarthak-R07.github.io/f3-turf-services/',
     videoLink: null,
+    logo: null,
     flagship: false,
   },
 ];
@@ -70,9 +73,18 @@ export const Work = () => {
             )}
 
             <div className="grid md:grid-cols-12 gap-8 items-start">
-              {/* Type label */}
-              <div className="md:col-span-3">
+              {/* Type label & Logo */}
+              <div className="md:col-span-3 flex flex-col items-start gap-4">
                 <p className="text-[0.65rem] tracking-[0.2em] uppercase text-[#8A8680] font-medium" style={{ fontFamily: 'JetBrains Mono, monospace' }}>{project.type}</p>
+                <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl overflow-hidden bg-white p-2.5 flex items-center justify-center shrink-0 border border-white/10 shadow-2xl">
+                  {project.logo ? (
+                    <img src={project.logo} alt={project.title} className="w-full h-full object-contain" />
+                  ) : (
+                    <span className="text-xl font-bold text-[#07090E]" style={{ fontFamily: 'Syne, sans-serif' }}>
+                      {project.title.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase()}
+                    </span>
+                  )}
+                </div>
               </div>
 
               {/* Title + Description */}
