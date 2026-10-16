@@ -8,12 +8,12 @@ const fadeUp = {
 
 const projects = [
   {
-    title: 'Renuka Devi Website',
+    title: 'Renuka Devi Temple',
     type: 'Web Development',
-    description: 'A thoughtfully designed website delivering a seamless digital presence.',
+    description: 'A thoughtfully designed website delivering a seamless digital presence for Shri Renuka Devi Temple.',
     websiteLink: 'https://sarthak-r07.github.io/Renuka-Devi/',
     videoLink: null,
-    logo: null,
+    logo: '/Sarthak-Potfolio/logo_renuka_devi.png',
     flagship: false,
   },
   {
