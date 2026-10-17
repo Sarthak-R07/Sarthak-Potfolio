@@ -26,12 +26,12 @@ const projects = [
     flagship: true,
   },
   {
-    title: 'Turf Web',
+    title: 'F3 Turf Services',
     type: 'Web Application',
     description: 'A modern, user-friendly platform designed to streamline sports turf booking and facility management. Features a seamless digital booking experience and clean UI.',
     websiteLink: 'https://Sarthak-R07.github.io/f3-turf-services/',
     videoLink: null,
-    logo: null,
+    logo: '/Sarthak-Potfolio/logo_f3_turf.png',
     flagship: false,
   },
 ];
