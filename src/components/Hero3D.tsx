@@ -13,9 +13,12 @@ export const Hero3D = () => {
       </div>
 
       {/* Photo mosaic behind text */}
-      <div className="absolute inset-0 z-[1] grid grid-cols-3 gap-[2px] opacity-[0.25]">
+      <div className="absolute inset-0 z-[1] grid grid-cols-4 gap-[2px] opacity-[0.25]">
         <div className="overflow-hidden">
           <img src="/Sarthak-Potfolio/img3.jpg" alt="" className="w-full h-full object-cover object-top scale-110" />
+        </div>
+        <div className="overflow-hidden">
+          <img src="/Sarthak-Potfolio/img4.jpg" alt="" className="w-full h-full object-cover object-center scale-110" />
         </div>
         <div className="overflow-hidden">
           <img src="/Sarthak-Potfolio/img2.jpg" alt="" className="w-full h-full object-cover object-center scale-110" />
