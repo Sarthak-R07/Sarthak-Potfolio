@@ -76,6 +76,13 @@ const milestones: Milestone[] = [
     logo: '/Sarthak-Potfolio/logo_tie.png',
     logoBg: 'bg-white',
     proofMail: '/Sarthak-Potfolio/tie_pune.png',
+    photos: [
+      {
+        src: '/Sarthak-Potfolio/tie_pune_venue.jpg',
+        caption: 'TiE U Global Pitch — Pune Chapter Semi-Finals at Auditorium, IMDR',
+        label: 'Semi-Finals Venue',
+      },
+    ],
   },
 ];
 
