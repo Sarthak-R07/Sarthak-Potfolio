@@ -67,6 +67,28 @@ const milestones: Milestone[] = [
     logo: '/Sarthak-Potfolio/logo_capital_nexus.png',
     logoBg: 'bg-white',
     proofMail: '/Sarthak-Potfolio/mit_india.png',
+    photos: [
+      {
+        src: '/Sarthak-Potfolio/mit_portrait.jpg',
+        caption: 'Sarthak Rodge at the Capital Nexus Grand Finale, Pune',
+        label: 'At the Finale',
+      },
+      {
+        src: '/Sarthak-Potfolio/mit_pitching.jpg',
+        caption: 'Pitching Swaraj Saathi to investors and industry leaders',
+        label: 'Live Pitch',
+      },
+      {
+        src: '/Sarthak-Potfolio/mit_deck.jpg',
+        caption: 'Swaraj Saathi pitch deck — Voice-First AI for 800M rural citizens',
+        label: 'Pitch Deck',
+      },
+      {
+        src: '/Sarthak-Potfolio/mit_presentation.jpg',
+        caption: 'Final presentation slide — Founder, Mentors & The Ask',
+        label: 'Presentation',
+      },
+    ],
   },
   {
     year: '2026',
