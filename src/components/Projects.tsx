@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface MilestonePhoto {
   src: string;
@@ -58,6 +58,28 @@ const milestones: Milestone[] = [
     logo: '/Sarthak-Potfolio/logo_capital_nexus.png',
     logoBg: 'bg-white',
     proofMail: '/Sarthak-Potfolio/capital_nexus_delhi.png',
+    photos: [
+      {
+        src: '/Sarthak-Potfolio/capital_nexus_portrait.jpg',
+        caption: 'Sarthak Rodge at the Capital Nexus Grand Finale, Delhi',
+        label: 'At the Finale',
+      },
+      {
+        src: '/Sarthak-Potfolio/capital_nexus_pitching.jpg',
+        caption: 'Pitching Swaraj Saathi live to angel investors, venture capitalists, and family offices',
+        label: 'Live Pitch',
+      },
+      {
+        src: '/Sarthak-Potfolio/capital_nexus_deck.jpg',
+        caption: 'Swaraj Saathi pitch deck presentation at Capital Nexus Grand Finale, Delhi',
+        label: 'Pitch Deck',
+      },
+      {
+        src: '/Sarthak-Potfolio/capital_nexus_presentation.jpg',
+        caption: 'Presenting the vision, mentors, and the funding ask at the Grand Finale',
+        label: 'Final Slide',
+      },
+    ],
   },
   {
     year: '2026',
@@ -67,28 +89,6 @@ const milestones: Milestone[] = [
     logo: '/Sarthak-Potfolio/logo_capital_nexus.png',
     logoBg: 'bg-white',
     proofMail: '/Sarthak-Potfolio/mit_india.png',
-    photos: [
-      {
-        src: '/Sarthak-Potfolio/mit_portrait.jpg',
-        caption: 'Sarthak Rodge at the Capital Nexus Grand Finale, Pune',
-        label: 'At the Finale',
-      },
-      {
-        src: '/Sarthak-Potfolio/mit_pitching.jpg',
-        caption: 'Pitching Swaraj Saathi to investors and industry leaders',
-        label: 'Live Pitch',
-      },
-      {
-        src: '/Sarthak-Potfolio/mit_deck.jpg',
-        caption: 'Swaraj Saathi pitch deck — Voice-First AI for 800M rural citizens',
-        label: 'Pitch Deck',
-      },
-      {
-        src: '/Sarthak-Potfolio/mit_presentation.jpg',
-        caption: 'Final presentation slide — Founder, Mentors & The Ask',
-        label: 'Presentation',
-      },
-    ],
   },
   {
     year: '2026',
@@ -118,6 +118,24 @@ export const Projects = () => {
   const [openMail, setOpenMail] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState<'photos' | 'mail'>('photos');
   const [activePhoto, setActivePhoto] = useState<number>(0);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (openMail === null) return;
+      if (e.key === 'Escape') {
+        setOpenMail(null);
+      } else if (activeTab === 'photos' && milestones[openMail]?.photos?.length) {
+        const total = milestones[openMail].photos!.length;
+        if (e.key === 'ArrowLeft') {
+          setActivePhoto((prev) => (prev > 0 ? prev - 1 : total - 1));
+        } else if (e.key === 'ArrowRight') {
+          setActivePhoto((prev) => (prev < total - 1 ? prev + 1 : 0));
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [openMail, activeTab]);
 
   return (
     <>
@@ -185,7 +203,13 @@ export const Projects = () => {
                           {item.photos.length} Photos · Click to expand
                         </span>
                       </div>
-                      <div className="grid grid-cols-4 gap-2.5 sm:gap-3">
+                      <div className={`grid gap-2.5 sm:gap-3 ${
+                        item.photos.length === 1
+                          ? 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4'
+                          : item.photos.length === 2
+                          ? 'grid-cols-2 sm:grid-cols-4'
+                          : 'grid-cols-4'
+                      }`}>
                         {item.photos.map((photo, pIdx) => (
                           <div
                             key={pIdx}
@@ -328,28 +352,39 @@ export const Projects = () => {
                   {/* Main Image with Navigation Arrows */}
                   <div className="relative w-full flex items-center justify-center flex-1 max-h-[58vh] my-auto">
                     {/* Previous button */}
-                    <button
-                      onClick={() => setActivePhoto((prev) => (prev > 0 ? prev - 1 : milestones[openMail].photos!.length - 1))}
-                      className="absolute left-2 sm:left-4 z-10 w-10 h-10 rounded-full bg-black/60 hover:bg-[#C9A962] text-white hover:text-black flex items-center justify-center transition-all duration-300 backdrop-blur-sm border border-white/10 text-xl font-bold"
-                      title="Previous photo"
-                    >
-                      ‹
-                    </button>
+                    {milestones[openMail].photos!.length > 1 && (
+                      <button
+                        onClick={() => setActivePhoto((prev) => (prev > 0 ? prev - 1 : milestones[openMail].photos!.length - 1))}
+                        className="absolute left-2 sm:left-4 z-10 w-10 h-10 rounded-full bg-black/70 hover:bg-[#C9A962] text-white hover:text-black flex items-center justify-center transition-all duration-300 backdrop-blur-sm border border-white/10 text-xl font-bold cursor-pointer"
+                        title="Previous photo (←)"
+                      >
+                        ‹
+                      </button>
+                    )}
 
-                    <img
-                      src={milestones[openMail].photos![activePhoto].src}
-                      alt={milestones[openMail].photos![activePhoto].caption}
-                      className="max-h-[56vh] max-w-full object-contain rounded-xl shadow-2xl border border-white/10"
-                    />
+                    <AnimatePresence mode="wait">
+                      <motion.img
+                        key={activePhoto}
+                        src={milestones[openMail].photos![activePhoto].src}
+                        alt={milestones[openMail].photos![activePhoto].caption}
+                        initial={{ opacity: 0, scale: 0.98 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.98 }}
+                        transition={{ duration: 0.2 }}
+                        className="max-h-[56vh] max-w-full object-contain rounded-xl shadow-2xl border border-white/10"
+                      />
+                    </AnimatePresence>
 
                     {/* Next button */}
-                    <button
-                      onClick={() => setActivePhoto((prev) => (prev < milestones[openMail].photos!.length - 1 ? prev + 1 : 0))}
-                      className="absolute right-2 sm:right-4 z-10 w-10 h-10 rounded-full bg-black/60 hover:bg-[#C9A962] text-white hover:text-black flex items-center justify-center transition-all duration-300 backdrop-blur-sm border border-white/10 text-xl font-bold"
-                      title="Next photo"
-                    >
-                      ›
-                    </button>
+                    {milestones[openMail].photos!.length > 1 && (
+                      <button
+                        onClick={() => setActivePhoto((prev) => (prev < milestones[openMail].photos!.length - 1 ? prev + 1 : 0))}
+                        className="absolute right-2 sm:right-4 z-10 w-10 h-10 rounded-full bg-black/70 hover:bg-[#C9A962] text-white hover:text-black flex items-center justify-center transition-all duration-300 backdrop-blur-sm border border-white/10 text-xl font-bold cursor-pointer"
+                        title="Next photo (→)"
+                      >
+                        ›
+                      </button>
+                    )}
                   </div>
 
                   {/* Caption & Counter */}
@@ -357,27 +392,36 @@ export const Projects = () => {
                     <p className="text-sm text-[#E8E4DF] font-medium" style={{ fontFamily: 'Syne, sans-serif' }}>
                       {milestones[openMail].photos![activePhoto].caption}
                     </p>
-                    <p className="text-[0.65rem] text-[#8A8680] mt-1 tracking-widest uppercase" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
-                      Photo {activePhoto + 1} of {milestones[openMail].photos!.length}
-                    </p>
+                    <div className="flex items-center justify-center gap-2 mt-1">
+                      <p className="text-[0.65rem] text-[#8A8680] tracking-widest uppercase" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
+                        Photo {activePhoto + 1} of {milestones[openMail].photos!.length}
+                      </p>
+                      {milestones[openMail].photos!.length > 1 && (
+                        <span className="text-[0.6rem] text-[#8A8680]/60 hidden sm:inline" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
+                          · Use ← / → keys
+                        </span>
+                      )}
+                    </div>
                   </div>
 
                   {/* Thumbnail Row */}
-                  <div className="flex items-center justify-center gap-2.5 mt-4 pt-3 border-t border-white/[0.06] w-full overflow-x-auto pb-1">
-                    {milestones[openMail].photos!.map((photo, pIdx) => (
-                      <button
-                        key={pIdx}
-                        onClick={() => setActivePhoto(pIdx)}
-                        className={`relative w-12 h-14 sm:w-14 sm:h-16 rounded-lg overflow-hidden border transition-all duration-200 shrink-0 ${
-                          activePhoto === pIdx
-                            ? 'border-[#C9A962] ring-2 ring-[#C9A962]/30 scale-105'
-                            : 'border-white/10 opacity-50 hover:opacity-100'
-                        }`}
-                      >
-                        <img src={photo.src} alt="" className="w-full h-full object-cover" />
-                      </button>
-                    ))}
-                  </div>
+                  {milestones[openMail].photos!.length > 1 && (
+                    <div className="flex items-center justify-center gap-2.5 mt-4 pt-3 border-t border-white/[0.06] w-full overflow-x-auto pb-1">
+                      {milestones[openMail].photos!.map((photo, pIdx) => (
+                        <button
+                          key={pIdx}
+                          onClick={() => setActivePhoto(pIdx)}
+                          className={`relative w-12 h-14 sm:w-14 sm:h-16 rounded-lg overflow-hidden border transition-all duration-200 shrink-0 cursor-pointer ${
+                            activePhoto === pIdx
+                              ? 'border-[#C9A962] ring-2 ring-[#C9A962]/30 scale-105'
+                              : 'border-white/10 opacity-50 hover:opacity-100'
+                          }`}
+                        >
+                          <img src={photo.src} alt="" className="w-full h-full object-cover" />
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
               ) : (
                 /* Mail image */
