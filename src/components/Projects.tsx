@@ -7,6 +7,13 @@ interface MilestonePhoto {
   label: string;
 }
 
+interface MilestoneProofText {
+  subject: string;
+  from: string;
+  date: string;
+  body: string[];
+}
+
 interface Milestone {
   year: string;
   title: string;
@@ -15,6 +22,8 @@ interface Milestone {
   logo: string;
   logoBg: string;
   proofMail: string;
+  proofLabel?: string;
+  proofText?: MilestoneProofText;
   photos?: MilestonePhoto[];
 }
 
@@ -27,6 +36,20 @@ const milestones: Milestone[] = [
     logo: '/Sarthak-Potfolio/logo_eureka.png',
     logoBg: 'bg-white',
     proofMail: '/Sarthak-Potfolio/eureka.png',
+    proofText: {
+      subject: 'Eureka! 2026 | Wildcard Entry to the Zonals Round | Eureka!',
+      from: 'IIT Bombay <eureka26@ecell.in>',
+      date: 'Fri 11 Sept, 20:18',
+      body: [
+        'Dear Sarthak,\n\nCongratulations! 🎉',
+        'We are delighted to inform you that your startup has been selected for the Zonals Round of Eureka! through a Wildcard Entry.',
+        'Your startup has earned a place among the top 1% of startups selected for the Zonals Round. This Wildcard Entry recognises the potential of your venture and gives you the opportunity to take the next step in your Eureka! journey.',
+        'Eureka! ID: eureka_id',
+        'The next steps and further details regarding the Zonals Round will be communicated to you through the Eureka! WhatsApp Community as well as via email. These details will be shared with you by tomorrow EOD.',
+        'We congratulate you on this remarkable achievement and wish you the very best for the Zonals Round. We look forward to seeing your startup at the Eureka! stage.',
+        'Warm regards,\nTeam Eureka!\nE-Cell, IIT Bombay',
+      ],
+    },
     photos: [
       {
         src: '/Sarthak-Potfolio/eureka_badge.jpg',
@@ -58,6 +81,20 @@ const milestones: Milestone[] = [
     logo: '/Sarthak-Potfolio/logo_capital_nexus.png',
     logoBg: 'bg-white',
     proofMail: '/Sarthak-Potfolio/capital_nexus_delhi.png',
+    proofText: {
+      subject: 'Selection for Capital Nexus Grand Finale — Delhi',
+      from: 'MITIndia StartupEcosystems <mitindia_startupevents@mitaoe.ac.in>',
+      date: 'Thu 3 Sept, 11:24',
+      body: [
+        'Dear Founder,',
+        'Congratulations! We are thrilled to inform you that your venture has officially been selected to advance to the Capital Nexus Grand Finale in Delhi.',
+        'Out of a highly competitive cohort in the Pune qualifiers, your business model, traction, and scalability stood out to our jury. At the Grand Finale, you will be pitching directly to angel investors, VCs, and family offices with active funding mandates.',
+        'To ensure you are positioned to make the most of this platform, we are scheduling mandatory 1-on-1 strategic preparation sessions this week. This will not be a standard administrative brief; we will dive directly into refining your pitch, aligning your funding ask, and discussing exactly what the final investor panel will be stress-testing.',
+        'Next Steps: Please secure your 1-on-1 session using the Calendly scheduling link. We have opened 6 slots for tomorrow to get started immediately.',
+        'You have earned your seat at the table. Now, let\'s ensure your pitch is ready to close the round.',
+        'Warm regards,\nTeam Capital Nexus 2026\nMIT India',
+      ],
+    },
     photos: [
       {
         src: '/Sarthak-Potfolio/capital_nexus_portrait.jpg',
@@ -106,6 +143,16 @@ const milestones: Milestone[] = [
       },
     ],
   },
+  {
+    year: '2026',
+    title: 'The Grand Pitch Season 5',
+    org: 'SIBM Pune',
+    detail: 'Participated with Swaraj Saathi in The Grand Pitch Season 5, the flagship national entrepreneurship competition organized by Symbiosis Institute of Business Management (SIBM), Pune and powered by Unstop.',
+    logo: '/Sarthak-Potfolio/logo_sibm.png',
+    logoBg: 'bg-white',
+    proofMail: '/Sarthak-Potfolio/certificate_sibm_grand_pitch.png',
+    proofLabel: 'View Certificate',
+  },
 ];
 
 const fadeUp = {
@@ -118,6 +165,7 @@ export const Projects = () => {
   const [openMail, setOpenMail] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState<'photos' | 'mail'>('photos');
   const [activePhoto, setActivePhoto] = useState<number>(0);
+  const [proofZoom, setProofZoom] = useState<number>(1);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -186,6 +234,7 @@ export const Projects = () => {
                       setOpenMail(idx);
                       setActiveTab(item.photos && item.photos.length > 0 ? 'photos' : 'mail');
                       setActivePhoto(0);
+                      setProofZoom(1);
                     }}
                   >
                     {item.title}
@@ -257,11 +306,14 @@ export const Projects = () => {
                     onClick={() => {
                       setOpenMail(idx);
                       setActiveTab('mail');
+                      setProofZoom(1);
                     }}
                     className="inline-flex items-center gap-2 text-xs font-medium text-[#8A8680] hover:text-[#C9A962] transition-all duration-300 group/btn"
                     style={{ fontFamily: 'JetBrains Mono, monospace' }}
                   >
-                    <span className="border-b border-[#8A8680]/30 group-hover/btn:border-[#C9A962]/50 pb-0.5 transition-colors">View Proof Mail</span>
+                    <span className="border-b border-[#8A8680]/30 group-hover/btn:border-[#C9A962]/50 pb-0.5 transition-colors">
+                      {item.proofLabel || 'View Proof Mail'}
+                    </span>
                     <span className="group-hover/btn:translate-x-1 transition-transform duration-300">→</span>
                   </button>
                 </div>
@@ -329,7 +381,7 @@ export const Projects = () => {
                         }`}
                         style={{ fontFamily: 'JetBrains Mono, monospace' }}
                       >
-                        Proof Email
+                        {milestones[openMail].proofLabel?.replace('View ', '') || 'Proof Email'}
                       </button>
                     </div>
                   )}
@@ -424,14 +476,82 @@ export const Projects = () => {
                   )}
                 </div>
               ) : (
-                /* Mail image */
-                <div className="overflow-y-auto max-h-[calc(92vh-76px)] bg-[#F8F9FA] p-6 md:p-10 flex justify-center">
-                  <img
-                    src={milestones[openMail].proofMail}
-                    alt={`${milestones[openMail].title} proof email`}
-                    className="max-w-full h-auto block rounded shadow-lg border border-black/5"
-                    style={{ imageRendering: 'auto' }}
-                  />
+                /* Proof document / certificate / mail image */
+                <div className="flex-1 flex flex-col min-h-0 bg-[#07090E]">
+                  {/* Proof Toolbar */}
+                  <div className="flex items-center justify-between px-5 py-2.5 border-b border-white/[0.06] bg-[#0F1117] text-xs shrink-0">
+                    <span className="text-[0.65rem] tracking-wider uppercase text-[#C9A962] font-medium" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
+                      {milestones[openMail].proofLabel?.replace('View ', '') || 'Official Proof'}
+                    </span>
+                    <div className="flex items-center gap-2">
+                      <div className="flex items-center rounded-lg bg-white/[0.04] border border-white/[0.06] overflow-hidden text-[0.7rem]">
+                        <button
+                          onClick={() => setProofZoom((z) => Math.max(0.8, +(z - 0.2).toFixed(1)))}
+                          disabled={proofZoom <= 0.8}
+                          className="px-2.5 py-1 text-[#8A8680] hover:text-white hover:bg-white/[0.06] disabled:opacity-30 cursor-pointer font-bold"
+                          title="Zoom Out"
+                        >
+                          −
+                        </button>
+                        <button
+                          onClick={() => setProofZoom(1)}
+                          className="px-2.5 py-1 text-[#C9A962] font-mono hover:bg-white/[0.06] min-w-[50px] text-center cursor-pointer"
+                          style={{ fontFamily: 'JetBrains Mono, monospace' }}
+                          title="Reset to 100%"
+                        >
+                          {Math.round(proofZoom * 100)}%
+                        </button>
+                        <button
+                          onClick={() => setProofZoom((z) => Math.min(2.0, +(z + 0.2).toFixed(1)))}
+                          disabled={proofZoom >= 2.0}
+                          className="px-2.5 py-1 text-[#8A8680] hover:text-white hover:bg-white/[0.06] disabled:opacity-30 cursor-pointer font-bold"
+                          title="Zoom In"
+                        >
+                          +
+                        </button>
+                      </div>
+                      <a
+                        href={milestones[openMail].proofMail}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-[#C9A962]/10 border border-[#C9A962]/30 text-[#C9A962] hover:bg-[#C9A962] hover:text-black transition-all text-[0.7rem] font-medium cursor-pointer"
+                        style={{ fontFamily: 'JetBrains Mono, monospace' }}
+                        title="Open full resolution in new tab"
+                      >
+                        <span>Full Res</span>
+                        <span>↗</span>
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Proof Image Viewport */}
+                  <div
+                    className="overflow-auto flex-1 p-4 sm:p-8 flex items-center justify-center bg-[#F8F9FA]"
+                    style={{ cursor: proofZoom > 1 ? 'grab' : 'zoom-in' }}
+                    onClick={(e) => {
+                      if ((e.target as HTMLElement).tagName === 'IMG') {
+                        setProofZoom((z) => (z === 1 ? 1.4 : 1));
+                      }
+                    }}
+                  >
+                    <div
+                      className="transition-transform duration-200 inline-flex justify-center"
+                      style={{
+                        transform: `scale(${proofZoom})`,
+                        transformOrigin: 'top center',
+                      }}
+                    >
+                      <img
+                        src={milestones[openMail].proofMail}
+                        alt={`${milestones[openMail].title} proof`}
+                        className="max-w-full h-auto block rounded-lg shadow-xl border border-black/10 select-none"
+                        style={{
+                          maxHeight: proofZoom <= 1 ? '70vh' : 'none',
+                          imageRendering: '-webkit-optimize-contrast',
+                        }}
+                      />
+                    </div>
+                  </div>
                 </div>
               )}
             </motion.div>
