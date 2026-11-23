@@ -25,9 +25,51 @@ interface Milestone {
   proofLabel?: string;
   proofText?: MilestoneProofText;
   photos?: MilestonePhoto[];
+  galleryAspect?: 'portrait' | 'landscape';
 }
 
 const milestones: Milestone[] = [
+  {
+    year: '2026',
+    title: 'Startup Buildathon India',
+    org: 'Google DeepMind & Cloud · Mumbai',
+    detail: 'Invited as Mentor & Evaluator for the Mumbai City Round at IMC Building, Churchgate. Mentored early-stage startups and aspiring founders building AI-powered solutions — an initiative by Google DeepMind and Google Cloud, powered by Hack2Skill, Nasscom, and Headstart.',
+    logo: '/Sarthak-Potfolio/logo_buildathon.png',
+    logoBg: 'bg-white',
+    proofMail: '/Sarthak-Potfolio/buildathon_mentor_email.jpg',
+    proofLabel: 'View Confirmation',
+    galleryAspect: 'landscape',
+    proofText: {
+      subject: 'Confirmation | Mentor - Startup Buildathon India 2026, Mumbai',
+      from: 'Headstart Mumbai <headstartmumbai@headstart.in>',
+      date: '19 Nov 2026, 17:48',
+      body: [
+        "Hi Sarthak,\n\nThank you for being a part of Startup Buildathon India 2026 – Mumbai! We're pleased to have you joining us as a Mentor.",
+        "The buildathon, an initiative by Google DeepMind and Google Cloud, powered by Hack2Skill, Nasscom and Headstart, brings together early-stage startups and aspiring founders to build AI-powered solutions over two days.",
+        "Event Details:\n• Dates: 20 & 21 November 2026\n• Venue: IMC Building, Churchgate, Mumbai\n• Role: Mentor & Evaluator",
+        "Your role as a Mentor:\n• Interact with participating teams as they build their solutions.\n• Help teams navigate technical, product and business-related challenges.\n• Share your expertise and guide them in strengthening their ideas and execution.",
+        "The top-performing teams will advance to the Grand Finale at Google Ananta, Bengaluru, competing for USD 5,000 in cash prizes and USD 5,000 in Google AI & Cloud credits.",
+        "Warm regards,\nTeam Headstart",
+      ],
+    },
+    photos: [
+      {
+        src: '/Sarthak-Potfolio/buildathon_mentor_email.jpg',
+        caption: 'Official Mentor Appointment Confirmation — Startup Buildathon India 2026, Mumbai',
+        label: 'Mentor Confirmation',
+      },
+      {
+        src: '/Sarthak-Potfolio/buildathon_evaluator_dashboard.jpg',
+        caption: 'Hack2Skill Evaluator & Mentor Portal Dashboard — Startup Buildathon India 2026',
+        label: 'Evaluator Portal',
+      },
+      {
+        src: '/Sarthak-Potfolio/buildathon_mentor_verified.jpg',
+        caption: 'Verified Sender & Security Details — Headstart Mumbai to sarthakrodge4@gmail.com',
+        label: 'Verification Proof',
+      },
+    ],
+  },
   {
     year: '2026',
     title: 'Eureka! Zonals',
@@ -257,7 +299,9 @@ export const Projects = () => {
                           ? 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4'
                           : item.photos.length === 2
                           ? 'grid-cols-2 sm:grid-cols-4'
-                          : 'grid-cols-4'
+                          : item.photos.length === 3
+                          ? 'grid-cols-3'
+                          : 'grid-cols-2 sm:grid-cols-4'
                       }`}>
                         {item.photos.map((photo, pIdx) => (
                           <div
@@ -267,14 +311,20 @@ export const Projects = () => {
                               setActiveTab('photos');
                               setActivePhoto(pIdx);
                             }}
-                            className="group/photo relative aspect-[3/4] rounded-xl overflow-hidden bg-[#0F1117] border border-white/10 hover:border-[#C9A962]/70 transition-all duration-300 cursor-pointer shadow-lg"
+                            className={`group/photo relative rounded-xl overflow-hidden bg-[#0F1117] border border-white/10 hover:border-[#C9A962]/70 transition-all duration-300 cursor-pointer shadow-lg ${
+                              item.galleryAspect === 'landscape'
+                                ? 'aspect-[16/10] sm:aspect-[4/3]'
+                                : 'aspect-[3/4]'
+                            }`}
                           >
                             <img
                               src={photo.src}
                               alt={photo.caption}
-                              className="w-full h-full object-cover object-center group-hover/photo:scale-105 transition-transform duration-500"
+                              className={`w-full h-full object-cover ${
+                                item.galleryAspect === 'landscape' ? 'object-top' : 'object-center'
+                              } group-hover/photo:scale-105 transition-transform duration-500`}
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover/photo:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-1.5 sm:p-2">
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent opacity-0 group-hover/photo:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-1.5 sm:p-2">
                               <span className="text-[0.55rem] tracking-wider uppercase text-[#C9A962] font-semibold leading-tight line-clamp-1" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
                                 {photo.label}
                               </span>
@@ -463,13 +513,23 @@ export const Projects = () => {
                         <button
                           key={pIdx}
                           onClick={() => setActivePhoto(pIdx)}
-                          className={`relative w-12 h-14 sm:w-14 sm:h-16 rounded-lg overflow-hidden border transition-all duration-200 shrink-0 cursor-pointer ${
+                          className={`relative rounded-lg overflow-hidden border transition-all duration-200 shrink-0 cursor-pointer ${
+                            milestones[openMail].galleryAspect === 'landscape'
+                              ? 'w-16 h-10 sm:w-20 sm:h-12'
+                              : 'w-12 h-14 sm:w-14 sm:h-16'
+                          } ${
                             activePhoto === pIdx
                               ? 'border-[#C9A962] ring-2 ring-[#C9A962]/30 scale-105'
                               : 'border-white/10 opacity-50 hover:opacity-100'
                           }`}
                         >
-                          <img src={photo.src} alt="" className="w-full h-full object-cover" />
+                          <img
+                            src={photo.src}
+                            alt=""
+                            className={`w-full h-full object-cover ${
+                              milestones[openMail].galleryAspect === 'landscape' ? 'object-top' : 'object-center'
+                            }`}
+                          />
                         </button>
                       ))}
                     </div>
