@@ -48,7 +48,7 @@ export const Hero3D = () => {
           className="text-[0.7rem] md:text-xs tracking-[0.4em] uppercase text-[#C9A962] mb-8 font-medium"
           style={{ fontFamily: 'JetBrains Mono, monospace' }}
         >
-          Startup Founder & Innovator
+          Startup Founder · Innovator · Mentor
         </motion.p>
         
         <motion.h1

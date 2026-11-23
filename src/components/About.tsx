@@ -19,8 +19,8 @@ const portraits = [
 const capabilities = [
   { label: 'Strategic Planning', desc: 'Market positioning & go-to-market' },
   { label: 'Venture Growth', desc: 'Zero-to-one scaling & fundraising' },
+  { label: 'Startup & AI Mentorship', desc: 'Guiding founders on AI architectures & execution' },
   { label: 'Product Thinking', desc: 'User-first design & architecture' },
-  { label: 'Team Leadership', desc: 'Cross-functional team orchestration' },
 ];
 
 const fadeUp = {
@@ -162,7 +162,8 @@ export const About = () => {
               taking ideas from napkin sketches to funded ventures.
             </p>
             <p className="text-[#8A8680] text-base md:text-lg leading-[1.85]">
-              From pitching at IIT Bombay's Eureka! to presenting at the MIT India Summit and Capital Nexus Grand Finale in Delhi,
+              From pitching at IIT Bombay's Eureka! and Capital Nexus Grand Finale in Delhi,
+              to serving as a Mentor & Evaluator at Google DeepMind & Cloud's Startup Buildathon,
               I've learned that the best companies aren't built on hype — they're built on
               <span className="text-[#E8E4DF]"> relentless execution</span> and
               <span className="text-[#E8E4DF]"> deep empathy</span> for the problem.

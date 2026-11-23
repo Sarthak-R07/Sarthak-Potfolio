@@ -14,10 +14,17 @@ interface MilestoneProofText {
   body: string[];
 }
 
+interface MilestoneRoleHighlight {
+  label: string;
+  text: string;
+}
+
 interface Milestone {
   year: string;
   title: string;
   org: string;
+  roleBadge?: string;
+  roleHighlights?: MilestoneRoleHighlight[];
   detail: string;
   logo: string;
   logoBg: string;
@@ -33,11 +40,22 @@ const milestones: Milestone[] = [
     year: '2026',
     title: 'Startup Buildathon India',
     org: 'Google DeepMind & Cloud · Mumbai',
-    detail: 'Invited as Mentor & Evaluator for the Mumbai City Round at IMC Building, Churchgate. Mentored early-stage startups and aspiring founders building AI-powered solutions — an initiative by Google DeepMind and Google Cloud, powered by Hack2Skill, Nasscom, and Headstart.',
+    roleBadge: 'Official Mentor & Evaluator',
+    detail: 'Officially appointed as Mentor & Evaluator for the Mumbai City Round at IMC Building, Churchgate — an initiative by Google DeepMind and Google Cloud, powered by Hack2Skill, Nasscom, and Headstart.',
+    roleHighlights: [
+      {
+        label: 'Mentor Role',
+        text: 'Interacted 1-on-1 with participating AI startup teams over two days at IMC Building, Churchgate — mentoring founders through system architecture, LLM agent pipelines, business viability, and pitch execution.',
+      },
+      {
+        label: 'Evaluator & Jury',
+        text: 'Evaluated cohort solutions on the official Hack2Skill Evaluator Portal across innovation, technical scalability, and problem impact — selecting top teams advancing to the Grand Finale at Google Ananta, Bengaluru.',
+      },
+    ],
     logo: '/Sarthak-Potfolio/logo_buildathon.png',
     logoBg: 'bg-white',
     proofMail: '/Sarthak-Potfolio/buildathon_mentor_email.jpg',
-    proofLabel: 'View Confirmation',
+    proofLabel: 'View Mentor Confirmation',
     galleryAspect: 'landscape',
     proofText: {
       subject: 'Confirmation | Mentor - Startup Buildathon India 2026, Mumbai',
@@ -60,13 +78,13 @@ const milestones: Milestone[] = [
       },
       {
         src: '/Sarthak-Potfolio/buildathon_evaluator_dashboard.jpg',
-        caption: 'Hack2Skill Evaluator & Mentor Portal Dashboard — Startup Buildathon India 2026',
+        caption: 'Hack2Skill Official Evaluator Portal — City Buildathon Round Scoring & Evaluation Dashboard',
         label: 'Evaluator Portal',
       },
       {
         src: '/Sarthak-Potfolio/buildathon_mentor_verified.jpg',
-        caption: 'Verified Sender & Security Details — Headstart Mumbai to sarthakrodge4@gmail.com',
-        label: 'Verification Proof',
+        caption: 'Cryptographically Verified Sender & Security Proof — Headstart Mumbai Official Email to Sarthak Rodge',
+        label: 'Verified Authority',
       },
     ],
   },
@@ -268,7 +286,15 @@ export const Projects = () => {
 
                 {/* Title + Description */}
                 <div className="md:col-span-6">
-                  <p className="text-xs text-[#8A8680] mb-2 font-medium tracking-wide uppercase" style={{ fontFamily: 'JetBrains Mono, monospace' }}>{item.org}</p>
+                  <div className="flex flex-wrap items-center gap-2.5 mb-2.5">
+                    <p className="text-xs text-[#8A8680] font-medium tracking-wide uppercase" style={{ fontFamily: 'JetBrains Mono, monospace' }}>{item.org}</p>
+                    {item.roleBadge && (
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#C9A962]/15 border border-[#C9A962]/40 text-[#C9A962] text-[0.65rem] uppercase tracking-wider font-semibold shadow-[0_0_12px_rgba(201,169,98,0.2)]" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#C9A962] animate-pulse" />
+                        {item.roleBadge}
+                      </span>
+                    )}
+                  </div>
                   <h3
                     className="text-2xl md:text-3xl font-semibold text-[#E8E4DF] mb-4 tracking-tight group-hover:text-[#C9A962] transition-colors duration-500 cursor-pointer"
                     style={{ fontFamily: 'Syne, sans-serif' }}
@@ -282,6 +308,25 @@ export const Projects = () => {
                     {item.title}
                   </h3>
                   <p className="text-[#8A8680] text-sm md:text-base leading-relaxed">{item.detail}</p>
+
+                  {/* Role Highlights (Mentor & Evaluator breakdown) */}
+                  {item.roleHighlights && (
+                    <div className="mt-4 grid sm:grid-cols-2 gap-2.5">
+                      {item.roleHighlights.map((hl, hIdx) => (
+                        <div key={hIdx} className="p-3.5 rounded-xl bg-white/[0.025] border border-white/[0.08] hover:border-[#C9A962]/35 transition-colors duration-300">
+                          <div className="flex items-center gap-2 mb-1.5">
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#C9A962]" />
+                            <p className="text-[0.65rem] uppercase tracking-wider text-[#C9A962] font-semibold" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
+                              {hl.label}
+                            </p>
+                          </div>
+                          <p className="text-xs text-[#A09D96] leading-relaxed">
+                            {hl.text}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
 
                   {/* Event Photos Gallery Strip if available */}
                   {item.photos && item.photos.length > 0 && (
@@ -400,9 +445,17 @@ export const Projects = () => {
               <div className="flex items-center justify-between px-5 sm:px-6 py-4 border-b border-white/[0.06] bg-[#07090E]/80 backdrop-blur-sm shrink-0">
                 <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
                   <div>
-                    <p className="text-[#E8E4DF] font-medium text-base sm:text-lg" style={{ fontFamily: 'Syne, sans-serif' }}>
-                      {milestones[openMail].title}
-                    </p>
+                    <div className="flex items-center gap-2.5 flex-wrap">
+                      <p className="text-[#E8E4DF] font-medium text-base sm:text-lg" style={{ fontFamily: 'Syne, sans-serif' }}>
+                        {milestones[openMail].title}
+                      </p>
+                      {milestones[openMail].roleBadge && (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#C9A962]/15 border border-[#C9A962]/40 text-[#C9A962] text-[0.6rem] uppercase tracking-wider font-semibold" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#C9A962] animate-pulse" />
+                          {milestones[openMail].roleBadge}
+                        </span>
+                      )}
+                    </div>
                     <p className="text-[#8A8680] text-[0.65rem] uppercase tracking-widest mt-0.5" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
                       {milestones[openMail].org}
                     </p>
